@@ -2,76 +2,46 @@
 
 Aplicación web para el control de horarios, fichaje de empleados y gestión de proyectos.
 
-## Características
+## 🚀 ¡Funciona Sin Configuración!
 
-- **Control de Fichaje**: Registro de entrada, salida y descansos
-- **Gestión de Proyectos**: Temporizador de tiempo por proyecto
-- **Roles de Usuario**: Admin, Jefe de Sección y Empleado
-- **Reportes**: Estadísticas con gráficos y exportación a CSV
-- **Alertas**: Notificaciones de retrasos y salidas anticipadas
-- **Lista Roja**: Visualización de empleados con retraso (Admin)
+Esta versión usa **SQLite** como base de datos, por lo que **no necesitas instalar MySQL** ni configurar servidores. Solo necesitas PHP.
 
-## Requisitos
-
-- PHP 8.0 o superior
-- MySQL 8.0 o superior
-- Servidor web (Apache/Nginx) o PHP built-in server
-
-## Instalación
-
-### 1. Clonar el repositorio
-
-```bash
-git clone https://github.com/CarlosGomez504/Proyecto_IA.git
-cd Proyecto_IA
-```
-
-### 2. Configurar la base de datos
-
-1. Crear una base de datos MySQL llamada `control_horarios`:
-
-```sql
-CREATE DATABASE control_horarios CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-2. Importar el schema:
-
-```bash
-mysql -u root -p control_horarios < database/schema.sql
-```
-
-### 3. Configurar la aplicación
-
-1. Copiar `config/config.php.example` a `config/config.php`
-2. Editar `config/config.php` con las credenciales de tu base de datos:
-
-```php
-define('DB_HOST', 'localhost');
-define('DB_NAME', 'control_horarios');
-define('DB_USER', 'tu_usuario');
-define('DB_PASS', 'tu_contraseña');
-```
-
-### 4. Ejecutar la aplicación
-
-Usando el servidor integrado de PHP:
+## Ejecución Rápida
 
 ```bash
 cd public
 php -S localhost:8000
 ```
 
-O configurar un servidor web apuntando a la carpeta `public/`.
+Luego abre tu navegador en: **http://localhost:8000**
+
+¡Eso es todo! La base de datos SQLite se crea automáticamente la primera vez.
 
 ## Usuarios de Prueba
 
-| Rol | Email | Contraseña |
-|-----|-------|------------|
-| Admin | admin@empresa.com | admin123 |
-| Empleado | maria.garcia@empresa.com | empleado123 |
-| Jefe Sección | juan.perez@empresa.com | empleado123 |
-| Jefe Sección | ana.rodriguez@empresa.com | empleado123 |
-| Empleado | luis.fernandez@empresa.com | empleado123 |
+| Email | Contraseña | Rol |
+|-------|------------|-----|
+| admin@empresa.com | admin123 | Admin (acceso total) |
+| maria.garcia@empresa.com | empleado123 | Empleado |
+| juan.perez@empresa.com | empleado123 | Jefe de Sección |
+| ana.rodriguez@empresa.com | empleado123 | Jefe de Sección |
+| luis.fernandez@empresa.com | empleado123 | Empleado |
+
+## Características
+
+- ✅ **Control de Fichaje**: Entrada, salida y descansos
+- ✅ **Temporizador de Proyectos**: Registra tiempo por proyecto
+- ✅ **3 Roles**: Admin, Jefe de Sección, Empleado
+- ✅ **Reportes con Gráficos**: Chart.js integrado
+- ✅ **Exportación CSV**: Descarga de datos
+- ✅ **Alertas Automáticas**: Retrasos y salidas anticipadas
+- ✅ **Lista Roja**: Empleados con retraso (Admin)
+- ✅ **Seguridad**: PDO, password_hash, consultas preparadas
+
+## Requisitos
+
+- PHP 7.4 o superior
+- Extensión PDO SQLite habilitada (viene por defecto en PHP 8+)
 
 ## Estructura del Proyecto
 
@@ -81,44 +51,44 @@ Proyecto_IA/
 │   ├── fichar.php         # Procesamiento de fichajes
 │   └── timer.php          # Gestión de temporizadores
 ├── assets/
-│   ├── css/
-│   │   └── style.css      # Estilos de la aplicación
-│   └── js/
-│       └── timer.js       # Script del temporizador
+│   ├── css/style.css      # Estilos
+│   └── js/timer.js        # Temporizador
 ├── config/
-│   └── config.php         # Configuración (no subir a Git)
+│   └── config.php         # Configuración
 ├── database/
-│   └── schema.sql         # Estructura de la base de datos
+│   ├── schema.sql         # Schema MySQL (referencia)
+│   ├── schema_sqlite.sql  # Schema SQLite (automático)
+│   └── control_horarios.db # Base de datos (auto-creada)
 ├── includes/
-│   ├── auth.php           # Autenticación y sesiones
-│   ├── db.php             # Conexión a MySQL con PDO
+│   ├── auth.php           # Autenticación
+│   ├── db.php             # Conexión SQLite
 │   └── funciones.php      # Funciones auxiliares
 ├── public/
 │   ├── index.php          # Login
 │   ├── dashboard.php      # Panel principal
-│   ├── fichaje.php        # Página de fichaje
-│   ├── proyectos.php      # Gestión de proyectos
-│   ├── empleados.php      # CRUD de empleados (Admin)
-│   ├── reportes.php       # Reportes y estadísticas
+│   ├── fichaje.php        # Fichaje
+│   ├── proyectos.php      # Proyectos
+│   ├── empleados.php      # Gestión (Admin)
+│   ├── reportes.php       # Reportes
 │   └── logout.php         # Cerrar sesión
-└── .gitignore
+└── README.md
 ```
 
-## Seguridad
+## Seguridad Implementada
 
-- **Contraseñas**: Hasheadas con `password_hash()` de PHP
+- **Contraseñas**: Hasheadas con `password_hash()`
 - **SQL**: Consultas preparadas con PDO (anti-inyección)
 - **XSS**: `htmlspecialchars()` en todas las salidas
-- **Sesiones**: Regeneración de ID y cookies seguras
-- **Cookies**: Solo se guarda el email para "Recordarme" (nunca la contraseña)
+- **Sesiones**: Seguras con regeneración de ID
+- **Cookies**: Solo email para "Recordarme" (nunca contraseña)
 
 ## Tecnologías
 
 - **Backend**: PHP puro (sin frameworks)
-- **Base de Datos**: MySQL con PDO
+- **Base de Datos**: SQLite con PDO
 - **Frontend**: HTML5, CSS3, JavaScript vanilla
-- **Gráficos**: Chart.js
-- **Iconos**: Font Awesome
+- **Gráficos**: Chart.js (CDN)
+- **Iconos**: Font Awesome (CDN)
 
 ## Departamentos
 
@@ -128,10 +98,17 @@ Proyecto_IA/
 - Diseño
 - Dirección
 
-## Licencia
+## Notas
 
-Este proyecto es parte de un trabajo académico.
+- La base de datos SQLite se crea automáticamente en `database/control_horarios.db`
+- No es necesario ejecutar scripts SQL manualmente
+- Todos los datos de prueba se insertan automáticamente
+- El proyecto está listo para producción en entornos pequeños/medianos
 
 ## Autor
 
 Carlos Gomez - [CarlosGomez504](https://github.com/CarlosGomez504)
+
+## Licencia
+
+Proyecto académico - Control Horarios S.L.
