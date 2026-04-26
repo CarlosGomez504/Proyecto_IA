@@ -24,25 +24,8 @@ Aquest projecte cobreix els següents criteris d'avaluació:
 
 ## 🎯 Objectiu del Projecte
 
-Dissenyar, desenvolupar i publicar en un servidor propi un projecte web creat amb PHP i accés a BBDD amb MySQL/SQLite. El desenvolupament s'ha realitzat amb eines generatives de codi com Cline.
+Dissenyar, desenvolupar i publicar en un servidor propi un projecte web creat amb PHP i accés a BBDD amb MySQL/SQLite. El desenvolupament s'ha realitzat amb eines generatives de codi com Cline:
 
----
-
-## 📧 Enunciat - Briefing del Client
-
-> *"Hola, què tal? Mira, m'han parlat molt bé de tu i necessito això JA. Tenim un caos a l'empresa que no t'ho pots ni imaginar. Som 400 persones i ara mateix no sé qui collons està fent què, m'explico?*
->
-> *Necessito una eina, una web, el que sigui, però que sigui ràpida i que no falli. Aquí la penya em diu que treballa vuit hores però jo veig projectes que no avancen i m'estic posant negre.*
->
-> **Control total d'hores:** Vull que cada empleat marqui quan entra i quan surt. Però no només això, vull saber en què es gasten el meu temps.*
->
-> **Xivatat de l'incompliment:** Vull una llista vermella, m'entens? Que el sistema em digui automàticament qui no està fent les hores que toca, qui arriba tard o qui plega abans d'hora.*
->
-> **Reports de Projectes:** Necessito saber quant m'està costant cada projecte en hores.*
->
-> **Fàcil, molt fàcil:** No em vinguis amb manuals de 50 pàgines. Vull que l'empleat entri, cliqui un botó i avall."*
-
----
 
 ## 🚀 ¿Cómo Empezar?
 
