@@ -66,6 +66,8 @@ Usa cualquiera de estas cuentas:
 | Usuario | Contraseña | Rol | ¿Qué puede hacer? |
 |---------|------------|-----|-------------------|
 | admin@empresa.com | admin123 | Administrador | Ver y gestionar TODO |
+| carlos.gomez@empresa.com | admin123 | Administrador | Ver y gestionar TODO |
+| ani.calderon@empresa.com | admin123 | Jefe de Sección | Ver su equipo |
 | maria.garcia@empresa.com | empleado123 | Empleado | Ver solo sus datos |
 | juan.perez@empresa.com | empleado123 | Jefe de Sección | Ver su equipo |
 | ana.rodriguez@empresa.com | empleado123 | Jefe de Sección | Ver su equipo |
@@ -75,6 +77,7 @@ Usa cualquiera de estas cuentas:
 | laura.moreno@empresa.com | empleado123 | Empleado | Ver solo sus datos |
 | david.gil@empresa.com | empleado123 | Empleado | Ver solo sus datos |
 | elena.vazquez@empresa.com | empleado123 | RRHH | Ver solo sus datos |
+| roberto.martinez@empresa.com | empleado123 | Empleado | Ver solo sus datos |
 
 ---
 
