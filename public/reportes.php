@@ -391,7 +391,9 @@ $resumen_diario = $stmt->fetchAll();
                 <?php if (!empty($horas_proyectos)): ?>
                     <div class="grafico-container">
                         <h3><i class="fas fa-chart-pie"></i> Horas por Proyecto (Esta Semana)</h3>
-                        <canvas id="graficoProyectos"></canvas>
+                        <div class="chart-wrapper">
+                            <canvas id="graficoProyectos"></canvas>
+                        </div>
                     </div>
                 <?php endif; ?>
                 
@@ -399,7 +401,9 @@ $resumen_diario = $stmt->fetchAll();
                 <?php if (!empty($resumen_diario)): ?>
                     <div class="grafico-container">
                         <h3><i class="fas fa-chart-line"></i> Empleados que Ficharon por Día</h3>
-                        <canvas id="graficoDiario"></canvas>
+                        <div class="chart-wrapper">
+                            <canvas id="graficoDiario"></canvas>
+                        </div>
                     </div>
                 <?php endif; ?>
             </div>

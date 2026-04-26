@@ -1166,6 +1166,16 @@ table tr:last-child td {
     color: var(--color-gris-oscuro);
 }
 
+/* Contenedor de gráficos con altura máxima controlada */
+.chart-wrapper {
+    max-height: 350px;
+    position: relative;
+}
+
+.chart-wrapper canvas {
+    max-height: 350px;
+}
+
 /* ============================================
    RESPONSIVE
    ============================================ */
