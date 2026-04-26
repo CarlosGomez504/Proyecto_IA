@@ -132,8 +132,12 @@ foreach ($proyectos as $proyecto) {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Proyectos - <?php echo e(NOMBRE_EMPRESA); ?></title>
+    <!-- Google Fonts - Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <link rel="stylesheet" href="../assets/css/style.css">
+    <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
     <div class="app-layout">
@@ -339,7 +343,7 @@ foreach ($proyectos as $proyecto) {
     </div>
 
     <!-- Script del temporizador -->
-    <script src="../assets/js/timer.js"></script>
+    <script src="assets/js/timer.js"></script>
     <script>
     // Iniciar el contador si hay timer activo
     <?php if ($timer_activo): ?>
@@ -350,7 +354,7 @@ foreach ($proyectos as $proyecto) {
      * Inicia el temporizador para un proyecto
      */
     function iniciarTimer(proyecto_id) {
-        fetch('../api/timer.php', {
+        fetch('api/timer.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -379,7 +383,7 @@ foreach ($proyectos as $proyecto) {
             return;
         }
 
-        fetch('../api/timer.php', {
+        fetch('api/timer.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
@@ -405,7 +409,7 @@ foreach ($proyectos as $proyecto) {
      * Asignarse a un proyecto (admin/jefe)
      */
     function asignarmeProyecto(proyecto_id) {
-        fetch('../api/timer.php', {
+        fetch('api/timer.php', {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',

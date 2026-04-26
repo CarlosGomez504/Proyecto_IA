@@ -78,10 +78,17 @@ function requerirRol($roles) {
  * @return array ['success' => bool, 'message' => string, 'bloqueado' => bool]
  */
 function intentarLogin($email, $password) {
+    // Limpiar entradas
+    $email = trim($email);
+    $password = trim($password);
+    
     // Validar email con filter_var
     if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         return ['success' => false, 'message' => 'Email no válido'];
     }
+    
+    // Convertir email a minúsculas para comparación insensible a mayúsculas
+    $email = strtolower($email);
     
     // Verificar si está bloqueado por muchos intentos
     if (estaBloqueado()) {
