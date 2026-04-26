@@ -127,12 +127,12 @@ $filtro_empleado = intval($_GET['usuario_id'] ?? 0);
 // OBTENER DATOS DEL REPORTE
 // ============================================
 
-// Fichajes
+// Fichajes (SQLite compatible)
 $sql_fichajes = "
-    SELECT u.codigo_empleado, CONCAT(u.nombre, ' ', u.apellidos) as empleado,
+    SELECT u.codigo_empleado, u.nombre || ' ' || u.apellidos as empleado,
            d.nombre as departamento, f.fecha, 
            f.hora_entrada, f.hora_salida, f.minutos_retraso, f.estado,
-           TIME_TO_SEC(TIMEDIFF(f.hora_salida, f.hora_entrada)) / 3600 as horas_trabajadas
+           ROUND(((julianday(f.hora_salida) - julianday(f.hora_entrada)) * 86400) / 3600, 2) as horas_trabajadas
     FROM fichajes f
     JOIN usuarios u ON f.usuario_id = u.id
     JOIN departamentos d ON u.departamento_id = d.id

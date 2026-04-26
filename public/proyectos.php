@@ -84,12 +84,12 @@ $tiempos_proyectos = [];
 foreach ($proyectos as $proyecto) {
     $proyecto_id = $proyecto['id'];
     
-    // Tiempo hoy
+    // Tiempo hoy (SQLite compatible)
     $sql_hoy = "
         SELECT COALESCE(SUM(
             CASE 
                 WHEN fin IS NOT NULL THEN minutos_totales
-                ELSE TIMESTAMPDIFF(MINUTE, inicio, NOW())
+                ELSE CAST((julianday('now') - julianday(inicio)) * 24 * 60 AS INTEGER)
             END
         ), 0) as minutos_hoy
         FROM tiempo_proyectos

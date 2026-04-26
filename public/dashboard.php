@@ -128,11 +128,12 @@ if ($rol === 'admin') {
     $stmt->execute();
     $retrasos_hoy = $stmt->fetch()['total'];
     
-    // LISTA ROJA - Empleados con retraso hoy
+    // LISTA ROJA - Empleados con retraso hoy (SQLite compatible)
     $sql_lista_roja = "
         SELECT u.id, u.codigo_empleado, u.nombre, u.apellidos, d.nombre as departamento,
                u.hora_entrada as hora_teorica, f.hora_entrada as hora_real,
-               f.minutos_retraso, TIMESTAMPDIFF(MINUTE, u.hora_entrada, f.hora_entrada) as diferencia_real
+               f.minutos_retraso,
+               CAST((julianday(f.hora_entrada) - julianday(u.hora_entrada)) * 24 * 60 AS INTEGER) as diferencia_real
         FROM fichajes f
         JOIN usuarios u ON f.usuario_id = u.id
         JOIN departamentos d ON u.departamento_id = d.id
@@ -144,11 +145,15 @@ if ($rol === 'admin') {
     $stmt->execute();
     $lista_roja = $stmt->fetchAll();
     
-    // Horas por departamento esta semana
+    // Horas por departamento esta semana (SQLite compatible)
     $sql_horas_dept = "
         SELECT d.nombre, 
-               SUM(TIME_TO_SEC(TIMEDIFF(f.hora_salida, f.hora_entrada)) - 
-                   TIME_TO_SEC(TIMEDIFF(f.fin_descanso, f.inicio_descanso))) / 3600 as horas_totales
+               SUM(
+                   ((julianday(f.hora_salida) - julianday(f.hora_entrada)) * 86400) -
+                   (CASE WHEN f.fin_descanso IS NOT NULL AND f.inicio_descanso IS NOT NULL 
+                         THEN (julianday(f.fin_descanso) - julianday(f.inicio_descanso)) * 86400 
+                         ELSE 0 END)
+               ) / 3600 as horas_totales
         FROM fichajes f
         JOIN usuarios u ON f.usuario_id = u.id
         JOIN departamentos d ON u.departamento_id = d.id
