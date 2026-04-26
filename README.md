@@ -1,6 +1,46 @@
 # 🕐 Sistema de Control de Horarios - Control Horarios S.L.
 
-¡Bienvenido al sistema de control de horarios de nuestra empresa ficticia! Esta web te permitirá gestionar el fichaje de empleados, el tiempo en proyectos y ver reportes detallados.
+**Projecte Web: PHP + MySQL amb Cline**
+
+---
+
+## 📚 RA6 - Resultats d'Aprenentatge
+
+Aquest projecte cobreix els següents criteris d'avaluació:
+
+| Codi | Criteri | Complert |
+|------|---------|----------|
+| 6.1 | Identifica els sistemes gestors de bases de dades més utilitzats en entorns web | ✅ |
+| 6.2 | Verifica la integració dels sistemes gestors de bases de dades amb el llenguatge de guions de servidors | ✅ |
+| 6.3 | Configura en el llenguatge de guions la connexió per a l'accés al sistema gestor de bases de dades | ✅ |
+| 6.4 | Crea bases de dades i taules en el gestor utilitzant el llenguatge de guions | ✅ |
+| 6.5 | Obté i actualitza la informació emmagatzemada a bases de dades | ✅ |
+| 6.6 | Aplica criteris de seguretat en l'accés dels usuaris | ✅ |
+| 6.7 | Verifica el funcionament i el rendiment del sistema | ✅ |
+| 6.8 | Identifica i assegura als usuaris que accedeixen al document web | ✅ |
+| 6.9 | Verifica l'aïllament de l'entorn específic de cada usuari | ✅ |
+
+---
+
+## 🎯 Objectiu del Projecte
+
+Dissenyar, desenvolupar i publicar en un servidor propi un projecte web creat amb PHP i accés a BBDD amb MySQL/SQLite. El desenvolupament s'ha realitzat amb eines generatives de codi com Cline.
+
+---
+
+## 📧 Enunciat - Briefing del Client
+
+> *"Hola, què tal? Mira, m'han parlat molt bé de tu i necessito això JA. Tenim un caos a l'empresa que no t'ho pots ni imaginar. Som 400 persones i ara mateix no sé qui collons està fent què, m'explico?*
+>
+> *Necessito una eina, una web, el que sigui, però que sigui ràpida i que no falli. Aquí la penya em diu que treballa vuit hores però jo veig projectes que no avancen i m'estic posant negre.*
+>
+> **Control total d'hores:** Vull que cada empleat marqui quan entra i quan surt. Però no només això, vull saber en què es gasten el meu temps.*
+>
+> **Xivatat de l'incompliment:** Vull una llista vermella, m'entens? Que el sistema em digui automàticament qui no està fent les hores que toca, qui arriba tard o qui plega abans d'hora.*
+>
+> **Reports de Projectes:** Necessito saber quant m'està costant cada projecte en hores.*
+>
+> **Fàcil, molt fàcil:** No em vinguis amb manuals de 50 pàgines. Vull que l'empleat entri, cliqui un botó i avall."*
 
 ---
 
@@ -290,3 +330,264 @@ Todas las contraseñas están en esta tabla. Si necesitas cambiarla, usa `passwo
 Proyecto desarrollado por **Carlos Gómez** para la asignatura de Proyecto IA.
 
 ¡Espero que disfrutes usando el sistema! 😊
+
+---
+
+## 📖 Documentació de Codi - Guia d'Estudi
+
+Aquesta secció mostra la comprensió del projecte i serveix com a guia d'estudi per a l'examen.
+
+### 2 - Gestió de Formularis i Seguretat d'Entrada
+
+**Tasca:** Processament del formulari de login.
+
+**Snippet:**
+```php
+// Ubicació: public/index.php (línia ~45)
+$email = filter_var(trim($_POST['email'] ?? ''), FILTER_SANITIZE_EMAIL);
+$email = filter_var($email, FILTER_VALIDATE_EMAIL);
+
+$password = $_POST['password'] ?? '';
+```
+
+**Explicació:** 
+- S'utilitza `$_POST` perquè les dades sensibles (contrasenya) no han de veure's a la URL.
+- `filter_var()` amb `FILTER_SANITIZE_EMAIL` neteja l'email.
+- `filter_var()` amb `FILTER_VALIDATE_EMAIL` valida el format.
+- `htmlspecialchars()` s'usa en mostrar dades a les vistes per evitar XSS.
+
+**Diferència:**
+- `htmlspecialchars()`: Converteix caràcters especials en entitats HTML (`<` → `<`). S'usa en SORTIDA.
+- `filter_var()`: Valida o neteja dades d'ENTRADA segons el filtre especificat.
+
+---
+
+### 3 - Persistència de Dades
+
+**Tasca:** Manteniment de l'estat de l'usuari.
+
+**Snippet session_start():**
+```php
+// Ubicació: includes/auth.php (línia ~8)
+session_start();
+```
+
+**Per què al principi?** `session_start()` ha d'anar abans de qualsevol sortida HTML per poder enviar les capçaleres de sessió correctament.
+
+**Exemple $_SESSION:**
+```php
+// Ubicació: public/index.php (línia ~70)
+$_SESSION['user_id'] = $usuario['id'];
+$_SESSION['nombre'] = $usuario['nombre'];
+$_SESSION['rol'] = $usuario['rol'];
+$_SESSION['departamento_id'] = $usuario['departamento_id'];
+```
+
+**Exemple setcookie():**
+```php
+// Ubicació: public/index.php (línia ~75)
+// Guardem només l'email, NO la contrasenya (seguretat!)
+if (isset($_POST['recordarme'])) {
+    setcookie('recordar_email', $email, time() + (86400 * 30), '/');
+}
+```
+
+**Per què no guardar la contrasenya a la cookie?**
+- Les cookies es guarden al navegador del client i són accessibles per JavaScript.
+- Si algú roba la cookie, tindria accés complet al compte.
+- Només guardem l'email per comoditat (pre-omplir el formulari), mai la contrasenya.
+
+---
+
+### 4 - Autenticació i Xifrat
+
+**Tasca:** Validació d'usuaris.
+
+**Creació d'usuari amb password_hash():**
+```php
+// Ubicació: database/poblar_datos.php (línia ~30)
+$password_hash = password_hash('admin123', PASSWORD_DEFAULT);
+// PASSWORD_DEFAULT utilitza bcrypt (més segur)
+```
+
+**Algoritme per defecte:** `PASSWORD_DEFAULT` utilitza `PASSWORD_BCRYPT` (bcrypt) amb cost 10.
+
+**Login amb password_verify():**
+```php
+// Ubicació: public/index.php (línia ~55)
+if (password_verify($password, $usuario['password_hash'])) {
+    // Contrasenya correcta
+    $_SESSION['user_id'] = $usuario['id'];
+}
+```
+
+**Com funciona?**
+- `password_verify()` compara la contrasenya plana amb el hash.
+- Utilitza el mateix algoritme i sal emmagatzemats al hash.
+- És constant-time per evitar atacs de timing.
+
+**Logout:**
+```php
+// Ubicació: public/logout.php
+session_unset();    // Elimina totes les variables de sessió
+session_destroy();  // Elimina la sessió del servidor
+```
+
+- `session_unset()`: Neteja les variables `$_SESSION`.
+- `session_destroy()`: Elimina el fitxer de sessió del servidor.
+
+---
+
+### 5 - Connexió i Seguretat de Base de Dades
+
+**Tasca:** Capa d'accés a dades.
+
+**Fitxer de configuració:**
+```php
+// Ubicació: includes/db.php
+function obtenerConexion() {
+    try {
+        $db = new PDO("sqlite:" . DB_PATH);
+        $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        return $db;
+    } catch (PDOException $e) {
+        // NO mostrem l'error real (podria contenir informació sensible)
+        error_log("Error de connexió a la base de dades");
+        die("Error de connexió a la base de dades. Contacti l'administrador.");
+    }
+}
+```
+
+**DSN (Data Source Name):** `"sqlite:" . DB_PATH` indica el tipus de BD i la ruta del fitxer.
+
+**Try-catch:** Evita que un error de connexió mostri la contrasenya o ruta de la BD.
+
+**Prepared Statements (evita Injecció SQL):**
+```php
+// Ubicació: public/index.php (línia ~50)
+$stmt = $db->prepare("SELECT * FROM usuarios WHERE email = ?");
+$stmt->execute([$email]);
+$usuario = $stmt->fetch();
+```
+
+**Com evita Injecció SQL?**
+- El `?` és un placeholder que separa el codi SQL de les dades.
+- Les dades s'envien per separat i es tracten com a valors, no com a codi executable.
+- Encara que l'usuari introdueixi `' OR 1=1 --`, es tractarà com a text literal.
+
+---
+
+### 6 - Operacions CRUD i Rendiment
+
+**Tasca:** Interacció amb la base de dades.
+
+**DDL (CREATE TABLE):**
+```sql
+-- Ubicació: database/schema_sqlite.sql
+CREATE TABLE usuarios (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    codigo_empleado TEXT UNIQUE NOT NULL,
+    nombre TEXT NOT NULL,
+    email TEXT UNIQUE NOT NULL,
+    password_hash TEXT NOT NULL,
+    rol TEXT NOT NULL DEFAULT 'empleado',
+    departamento_id INTEGER,
+    hora_entrada TIME NOT NULL DEFAULT '09:00:00',
+    hora_salida TIME NOT NULL DEFAULT '17:00:00',
+    minutos_margen INTEGER DEFAULT 8,
+    activo INTEGER DEFAULT 1,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+);
+```
+
+**DML (UPDATE):**
+```php
+// Ubicació: public/empleados.php (línia ~80)
+$stmt = $db->prepare("UPDATE usuarios SET nombre = ?, email = ?, rol = ? WHERE id = ?");
+$stmt->execute([$nombre, $email, $rol, $id]);
+// S'utilitza execute() amb array de paràmetres
+```
+
+**SELECT amb fetchAll():**
+```php
+// Ubicació: public/dashboard.php (línia ~40)
+$stmt = $db->prepare("SELECT id, nombre, email, rol FROM usuarios WHERE activo = 1");
+$stmt->execute();
+$usuarios = $stmt->fetchAll();
+```
+
+**Per què columnes específiques en lloc de *?**
+- Més eficient: només es transmeten les dades necessàries.
+- Menys amplada de banda entre BD i aplicació.
+- Si la taula té moltes columnes, seleccionar-les totes és innecessari.
+- Millor control sobre quines dades s'exposen.
+
+---
+
+## 📊 Tasca 0 - Disseny i Pla del Projecte
+
+### Funcionalitats de l'Aplicació
+
+| Funcionalitat | Descripció |
+|---------------|------------|
+| Login/Logout | Autenticació segura amb bloqueig després de 5 intents |
+| Fichaje | Registrar entrada, sortida, inici i fi de descans |
+| Projects | Cronòmetre per registrar temps en projectes |
+| Dashboard | Vista personalitzada segons rol |
+| Reportes | Filtres per data, departament, empleat; exportació CSV |
+| Empleats (Admin) | CRUD complet d'empleats |
+| Alertes | Notificacions automàtiques de retard/oblit |
+| Llista Roja | Empleats que arriben tard (només Admin) |
+
+### Dades que Utilitza l'App
+
+| Dada | Origen | Ús |
+|------|--------|-----|
+| Email/Contrasenya | Formulari login | Autenticació |
+| Hora d'entrada/sortida | Botons de fitxatge | Càlcul hores treballades |
+| Projecte seleccionat | Selector de projectes | Assignació de temps |
+| Filtres de reportes | Formulari de filtres | Consulta personalitzada |
+
+### Rols d'Usuari
+
+| Rol | Permisos |
+|-----|----------|
+| **admin** | Accés total: veure tot, gestionar empleats, reportes, gràfics |
+| **jefe_seccion** | Veure el seu equip + les seves pròpies dades |
+| **empleado** | Només veure i gestionar les seves pròpies dades |
+
+### Pantalles de l'Aplicació
+
+```
+┌─────────────────┐
+│    LOGIN        │ ← index.php
+│  email/pass     │
+└────────┬────────┘
+         │
+         ▼
+┌─────────────────┐     ┌─────────────────┐
+│   DASHBOARD     │────▶│    FICHAJE      │
+│  (segons rol)   │     │  entrada/sortida│
+└────────┬────────┘     └─────────────────┘
+         │
+         ├──▶ ┌─────────────────┐
+         │    │   PROJECTS      │
+         │    │  cronòmetre     │
+         │    └─────────────────┘
+         │
+         ├──▶ ┌─────────────────┐
+         │    │   REPORTES      │
+         │    │  filtres/gràfics│
+         │    └─────────────────┘
+         │
+         └──▶ ┌─────────────────┐
+              │   EMPLEATS      │ (només Admin)
+              │   CRUD          │
+              └─────────────────┘
+```
+</content>
+<task_progress>
+- [x] Crear README.md amb informació del projecte
+- [x] Actualitzar README.md amb criteris RA6 i documentació tècnica
+- [ ] Subir al repositori GitHub
+</task_progress>
