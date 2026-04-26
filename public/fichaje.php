@@ -319,6 +319,7 @@ if ($hora_entrada && $hora_salida) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: 'accion=' + encodeURIComponent(tipo)
         })

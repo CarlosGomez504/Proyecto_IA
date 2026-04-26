@@ -358,6 +358,7 @@ foreach ($proyectos as $proyecto) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: 'accion=iniciar&proyecto_id=' + proyecto_id
         })
@@ -387,6 +388,7 @@ foreach ($proyectos as $proyecto) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: 'accion=parar&timer_id=' + timer_id
         })
@@ -413,6 +415,7 @@ foreach ($proyectos as $proyecto) {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
+                'X-Requested-With': 'XMLHttpRequest'
             },
             body: 'accion=asignar&proyecto_id=' + proyecto_id
         })
