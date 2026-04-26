@@ -366,7 +366,7 @@ foreach ($proyectos as $proyecto) {
             if (data.success) {
                 window.location.reload();
             } else {
-                mostrarMensaje(data.mensaje, 'error');
+                mostrarMensaje(data.message, 'error');
             }
         })
         .catch(error => {
@@ -393,10 +393,10 @@ foreach ($proyectos as $proyecto) {
         .then(response => response.json())
         .then(data => {
             if (data.success) {
-                mostrarMensaje(data.mensaje, 'success');
+                mostrarMensaje(data.message, 'success');
                 setTimeout(() => window.location.reload(), 2000);
             } else {
-                mostrarMensaje(data.mensaje, 'error');
+                mostrarMensaje(data.message, 'error');
             }
         })
         .catch(error => {
@@ -421,7 +421,7 @@ foreach ($proyectos as $proyecto) {
             if (data.success) {
                 window.location.reload();
             } else {
-                mostrarMensaje(data.mensaje, 'error');
+                mostrarMensaje(data.message, 'error');
             }
         })
         .catch(error => {

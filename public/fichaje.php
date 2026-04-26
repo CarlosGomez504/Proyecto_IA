@@ -328,7 +328,7 @@ if ($hora_entrada && $hora_salida) {
             
             if (data.success) {
                 resultado.className = 'alert alert-success';
-                resultado.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.mensaje;
+                resultado.innerHTML = '<i class="fas fa-check-circle"></i> ' + data.message;
                 
                 // Recargar página después de 2 segundos
                 setTimeout(() => {
@@ -336,7 +336,7 @@ if ($hora_entrada && $hora_salida) {
                 }, 2000);
             } else {
                 resultado.className = 'alert alert-error';
-                resultado.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.mensaje;
+                resultado.innerHTML = '<i class="fas fa-exclamation-circle"></i> ' + data.message;
                 
                 // Reactivar botón
                 if (btn) {
